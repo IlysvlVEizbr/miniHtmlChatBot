@@ -19,7 +19,8 @@ Native HTML frontend that can directly connect to OpenAI-like APIs without addit
 - Multiple model selection options available for anytime switching
 - AI-generated dialogue title (consumes significant tokens when enable, disable by default)
 - Quickly start a conversation via URL parameters, which can be utilized as a customized search engine. URL combination rule: `[HTML file URL]?s=[URL-encoded user prompt]`
-- Implemented in a single html file, <20kB in size
+- Implemented in a single HTML file, <20kB in size
+- Support conversion of some Markdown syntax content to HTML for display
 
 ## Original intention of development
 After the release of LLM open source models, it usually comes with a `web_demo` for basic usage. One of the most commonly used methods for implementing `web_demo` is `Gradio`. Although `Gradio` can also be integrated with AI APIs, it requires a Python backend running somewhere and has certain requirements for Python versions, which is not very convenient. It does not meet the need for accessing APIs anytime and anywhere using devices like smartphones.
