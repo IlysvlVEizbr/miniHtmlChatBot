@@ -6,9 +6,9 @@ Native HTML frontend that can directly connect to OpenAI-like APIs without addit
 - Chines：[main.html](main.html)
 - English：[main_en.html](main_en.html)
 2. Modifying API related parameters
-- Update the parameter `ApiUrl`, `ApiKey` and `ApiModel` in the HTML (costs will be borne by yourself).
-- To use SiliconFlow's free API, simply register on the [SiliconFlow website](https://siliconflow.cn/) and generate your API key. Then fill in the `ApiKey`.
-3. Open the corresponding HTML file directly using your browser.
+- Update the parameter `ApiUrl`, `ApiKey` and `ApiModel` in the HTML (costs will be borne by yourself)
+- To use SiliconFlow's free API, simply register on the [SiliconFlow website](https://siliconflow.cn/) and generate your API key. Then fill in the `ApiKey`
+3. Open the corresponding HTML file directly using your browser
 
 ### Example Running Effect
 <img src="https://i.ibb.co/NK53JRZ/image.png" alt="Running Effect"></img>
