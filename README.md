@@ -21,6 +21,7 @@ Read the project introduction in English: [README_en](README_en.md)
 - 多种模型选择功能，可随时切换
 - AI生成对话标题（使用时消耗较多token，默认不开启）
 - 通过URL参数快速开启对话，可用作自定义搜索引擎，URL组合规则：`[html文件URL]?s=[URL编码后的用户提示词]`
+- 单html文件实现，大小<20kB
 
 ## 开发初衷
 LLM开源模型发布后，一般会附带提供一个`web_demo`用于模型的基本使用，`web_demo`的实现用的最多的方式之一就是`Gradio`。使用`Gradio`当然也能接入AI API，但必须有一个Python后端在某处运行，并且对Python版本有一定的要求，不够方便，不能满足使用手机等设备随时随地接入API的需求。
