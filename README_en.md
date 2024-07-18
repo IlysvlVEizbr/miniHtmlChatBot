@@ -11,7 +11,7 @@ Native HTML frontend that can directly connect to OpenAI-like APIs without addit
 3. Open the corresponding HTML file directly using your browser
 
 ### Example Running Effect
-<img src="https://i.ibb.co/NK53JRZ/image.png" alt="Running Effect"></img>
+<img src="https://i.ibb.co/Pjk8HNH/image.png" alt="Running Effect"></img>
 
 ## Features / Highlights
 - The typical features provided by the `web_demo` based on `Gradio`: multi-round conversation, clear history, regenerate (last) result
