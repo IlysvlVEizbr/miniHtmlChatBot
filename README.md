@@ -5,8 +5,8 @@ Read the project introduction in English: [README_en](README_en.md)
 
 ## 运行方式
 1. 确定用户的首选语言
-- 中文：main.html
-- 英文：main_en.html
+- 中文：[main.html](main.html)
+- 英文：[main_en.html](main_en.html)
 2. 完善API相关参数
 - 修改对应html中的`ApiUrl`、`ApiKey`和`ApiModel`（费用自理）
 - 如果想使用SiliconFlow（北京硅动科技有限公司）提供的免费API，则只需要到[SiliconFlow官网](https://siliconflow.cn/)完成注册并生成API，填入`ApiKey`处即可
