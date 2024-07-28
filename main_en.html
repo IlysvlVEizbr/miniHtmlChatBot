@@ -238,7 +238,7 @@ class ApiRequest {
 	  model: ApiModel[this.ms.selectedIndex],
 	  messages: [{role: 'system', content: this.dsp.get()}],
 	  stream: false,
-	  max_tokens: 1536,
+	  max_tokens: 1024,
 	  top_k: 20
 	};
 	if (this.dsp.index()==1)
