@@ -295,7 +295,7 @@ class ApiRequest {
 	  max_tokens: 9,
 	  top_k: 15
 	};
-	temp_options_body.messages.push({role: 'user', content: '直接输出短标题，其中避免含有标点符号。以下为JSON形式的待起标题对话：'+JSON.stringify(history[0])});
+	temp_options_body.messages.push({role: 'user', content: '直接输出短标题，其中避免含有标点符号。以下为JSON格式的待起标题对话：'+JSON.stringify(history[0])});
 	this.options.body = JSON.stringify(temp_options_body);
 	fetch(ApiUrl, this.options)
 	.then(response => response.json())
