@@ -25,7 +25,7 @@ const TranslatePrompt = [
 const SummarizePrompt = "Your task is to summarize the given content, then create a short (lenght <9 words) title about it in Chinese. Output the title directly without any additional text or punctuation."
 </script>
 <title>AI Chat Bot</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=0.8">
 <style type="text/css">
 *{box-sizing:border-box;}
 body{background-color:#eee;}
@@ -149,6 +149,7 @@ class ChatBox {
   }
   _msgStrToHtml(msgStr){
 	msgStr = msgStr.trim();
+	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	msgStr = msgStr.replace(/(\*\*+)([^*]+)\1/g, '<strong>$2</strong>'); // **粗体** 转html
 	msgStr = msgStr.replace(/^(#+)\s+(.+)/gm, '<strong>$2</strong>'); // # 标题 转html
 	return msgStr.replace(/\n/g, '<br>');
@@ -274,8 +275,11 @@ class ApiRequest {
 	disableBtns(false);
   }
   _setTitle(titleStr){
-	titleStr = titleStr.replace(/\"/g, '').trim();
+	titleStr = titleStr.replace(/\"/g, '');
+	titleStr = titleStr.replace(/^标题[：: ]|^title:/i, '');
 	titleStr = titleStr.replace(/[。\.]$/,'');
+	titleStr = titleStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	titleStr = titleStr.trim();
 	document.title = titleStr;
 	this.mt.innerHTML = titleStr;
   }
