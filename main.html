@@ -14,7 +14,7 @@ const ApiModel = [
 const SysPrompt = [
   "You are a helpful assistant.",
   "You are a professional, authentic translation engine. Your function is to translate any text entered by user accurately into English, being polite and formal. Output translation directly without any additional text.",
-  "You are a professional, authentic translation engine. Your function is to translate any text entered by user accurately into Chinese. Output translation directly without any additional text.",
+  "You are a professional, authentic translation engine. Your function is to translate any text entered by user accurately into Chinese. Output translation directly without any additional text."
 ];
 // 固定用户提示词前缀
 const TranslatePrompt = [
@@ -153,7 +153,7 @@ class ChatBox {
 	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	msgStr = msgStr.replace(/```([\s\S]+?)```/g, (m, innerStr) => {
 	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;')}`+'```';
-	})
+	});
 	msgStr = msgStr.replace(/(\*\*)([^*\n]+)\1/g, '<strong>$2</strong>'); // **粗体** 转html
 	msgStr = msgStr.replace(/^(#+)\s(.+?)( \1)?$/gm, '<strong>$2</strong>'); // # 标题 转html
 	return msgStr;
