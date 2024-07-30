@@ -43,7 +43,7 @@ summary{margin-left:10px;}
 /* AI reply bubble */
 .bot.msg{background-color:#eff;float:left;border-radius:8px 8px 8px 0;}
 .bot.name{text-align:left;}
-.msg{border:1px solid;text-align:start;max-width:90%;padding:10px 15px;margin:2px 0 5px;}
+.msg{white-space:pre-wrap;border:1px solid;text-align:start;max-width:90%;padding:10px 15px;margin:2px 0 5px;}
 .name{font-size:0.9rem;margin-top:2px;}
 #experimentRow{padding:0 10px;}
 .hp-row.optionRow{padding:5px 10px 0;}
@@ -51,7 +51,7 @@ summary{margin-left:10px;}
 #optionCell1{width:30%;}
 #optionCell2{width:45%;}
 #optionCell3{width:25%;}
-.optionTitle{margin-left:10px;padding:8px 0;font-size:15px;}
+.optionTitle{padding:8px 0 8px 9px;font-size:15px;}
 .optionSelect{padding:8px;font-size:14px;margin-left:5px;}
 .inputArea{width:100%;border:1px dotted;resize:none;padding:8px;font-size:1.1rem;font-family:Arial,"Microsoft YaHei",sans-serif}
 #inputContent{margin:8px 0 5px;}
@@ -147,10 +147,14 @@ class ChatBox {
   }
   _msgStrToHtml(msgStr){
 	msgStr = msgStr.trim();
+	msgStr = msgStr.replace(/&/g, '&amp;');
 	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	msgStr = msgStr.replace(/(\*\*+)([^*]+)\1/g, '<strong>$2</strong>'); // **Bold** to html
-	msgStr = msgStr.replace(/^(#+)\s+(.+)/gm, '<strong>$2</strong>'); // # Title to html
-	return msgStr.replace(/\n/g, '<br>');
+	msgStr = msgStr.replace(/```([\s\S]+?)```/g, (m, innerStr) => {
+	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;')}`+'```';
+	})
+	msgStr = msgStr.replace(/(\*\*)([^*\n]+)\1/g, '<strong>$2</strong>'); // **Bold** to html
+	msgStr = msgStr.replace(/^(#+)\s(.+?)( \1)?$/gm, '<strong>$2</strong>'); // # Title to html
+	return msgStr;
   }
   _appendMsg(msgStr, isUserMsg){
 	const divClass = isUserMsg ? 'user' : 'bot';
@@ -276,6 +280,7 @@ class ApiRequest {
 	titleStr = titleStr.replace(/\"/g, '');
 	titleStr = titleStr.replace(/^title:/i, '');
 	titleStr = titleStr.replace(/\.$/,'');
+	titleStr = titleStr.replace(/&/g, '&amp;');
 	titleStr = titleStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	titleStr = titleStr.trim();
 	document.title = titleStr;
