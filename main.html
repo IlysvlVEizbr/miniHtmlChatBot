@@ -22,7 +22,7 @@ const TranslatePrompt = [
   "你是翻译官，请准确、流利地翻译我后续所有内容到中文："
 ];
 // 起标题时用的系统提示词
-const SummarizePrompt = "Your task is to summarize the given content, then create a short (lenght <9 words) title about it in Chinese. Output the title directly without any additional text or punctuation."
+const SummarizePrompt = "Your task is to summarize the given content, then create a short (lenght <9 words) title about it in Chinese. Output the title directly without any additional text or punctuation.";
 </script>
 <title>AI Chat Bot</title>
 <meta name="viewport" content="width=device-width, initial-scale=0.8">
@@ -324,7 +324,7 @@ const chatBox = new ChatBox('chatBox');
 const dynSysPrompt = new DynamicSysPrompt(sysPromptSelect, 'sysPromptInput');
 const userInput = new UserInput('inputContent');
 const apiRequest = new ApiRequest(chatBox, dynSysPrompt, mainTitle, modelSelect, genTitleCheck);
-modelSelect.firstElementChild.remove() // 删除占位选项
+modelSelect.firstElementChild.remove(); // 删除占位选项
 for (model of ApiModel){
   // 可用模型选项动态导入
   modelSelect.insertAdjacentHTML('beforeend', `<option>${model}</option>`);
