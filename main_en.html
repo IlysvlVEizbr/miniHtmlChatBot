@@ -280,11 +280,9 @@ class ApiRequest {
 	titleStr = titleStr.replace(/\"/g, '');
 	titleStr = titleStr.replace(/^title:/i, '');
 	titleStr = titleStr.replace(/\.$/,'');
-	titleStr = titleStr.replace(/&/g, '&amp;');
-	titleStr = titleStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	titleStr = titleStr.trim();
 	document.title = titleStr;
-	this.mt.innerHTML = titleStr;
+	this.mt.textContent = titleStr;
   }
   generateTitle(history){
 	// console.log('Start generating titles', history);
@@ -335,7 +333,7 @@ function disableBtns(flag){
 function clearHis(){
   chatBox.clearAll();
   document.title = 'AI Chat Bot';
-  mainTitle.innerHTML = 'AI Chat Bot';
+  mainTitle.textContent = 'AI Chat Bot';
 }
 function sendMsg(){
   predict(userInput.get());
