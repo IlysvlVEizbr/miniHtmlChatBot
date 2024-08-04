@@ -30,6 +30,7 @@ const SummarizePrompt = "Your task is to summarize the given content, then creat
 *{box-sizing:border-box;}
 body{background-color:#eee;}
 summary{margin-left:10px;}
+code{color:#111;background-color:#eee;font-size:0.95rem;padding:2px 4px;margin:0 2px;border-radius:4px;}
 ::-webkit-scrollbar{width:5px;}
 /* 滑块样式 */
 ::-webkit-scrollbar-thumb{background-color:#8888;border-radius:3px;}
@@ -152,10 +153,11 @@ class ChatBox {
 	msgStr = msgStr.replace(/&/g, '&amp;');
 	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	msgStr = msgStr.replace(/```([\s\S]+?)```/g, (m, innerStr) => {
-	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;')}`+'```';
+	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;').replace(/\`/g, '&#96;')}`+'\n```';
 	});
-	msgStr = msgStr.replace(/(\*\*)([^*\n]+)\1/g, '<strong>$2</strong>'); // **粗体** 转html
-	msgStr = msgStr.replace(/^(#+)\s(.+?)( \1)?$/gm, '<strong>$2</strong>'); // # 标题 转html
+	msgStr = msgStr.replace(/(?<!`)`([ -_a-~]{1,25})`(?!`)/g, '<code>$1</code>'); // `代码` 转html
+	msgStr = msgStr.replace(/(\*\*\*?)(.+?)\1/g, '<strong>$2</strong>'); // **粗体** 转html
+	msgStr = msgStr.replace(/^#+\s?(.+?)(\s#*)?$/gm, '<h3>$1</h3>'); // # 标题 转html
 	return msgStr;
   }
   _appendMsg(msgStr, isUserMsg){
