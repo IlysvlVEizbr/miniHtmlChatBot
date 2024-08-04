@@ -30,7 +30,7 @@ const SummarizePrompt = "Your task is to summarize the given content, then creat
 *{box-sizing:border-box;}
 body{background-color:#eee;}
 summary{margin-left:10px;}
-code{color:#111;background-color:#eee;font-size:0.95rem;padding:2px 4px;margin:0 2px;border-radius:4px;}
+code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:1px 2px;border-radius:4px;}
 ::-webkit-scrollbar{width:5px;}
 /* 滑块样式 */
 ::-webkit-scrollbar-thumb{background-color:#8888;border-radius:3px;}
@@ -41,10 +41,10 @@ code{color:#111;background-color:#eee;font-size:0.95rem;padding:2px 4px;margin:0
 #chatBox{height:400px;overflow:auto;}
 .hp-row.msgRow{padding:3px 10px;}
 /* 用户信息气泡 */
-.user.msg{background-color:#efd;float:right;border-radius:8px 8px 0 8px;}
+.user.msg{background-color:#dfd;float:right;border-radius:8px 8px 0 8px;}
 .user.name{text-align:right;}
 /* AI回复气泡 */
-.bot.msg{background-color:#eff;float:left;border-radius:8px 8px 8px 0;}
+.bot.msg{background-color:#def;float:left;border-radius:8px 8px 8px 0;}
 .bot.name{text-align:left;}
 .msg{white-space:pre-wrap;border:1px solid;text-align:start;max-width:90%;padding:10px 15px;margin:2px 0 5px;}
 .name{font-size:0.9rem;margin-top:2px;}
@@ -135,6 +135,7 @@ code{color:#111;background-color:#eee;font-size:0.95rem;padding:2px 4px;margin:0
 	  <button type="button" class="ctrlBtn" onclick="reGen()">重新生成</button>
 	</div>
   </div>
+  <center class="hp-row">开源信息：<a href="https://github.com/IlysvlVEizbr/miniHtmlChatBot" target="_blank">项目GitHub链接</a></center>
 <script type="text/javascript">
 class ChatBox {
   constructor(chatBoxId){
