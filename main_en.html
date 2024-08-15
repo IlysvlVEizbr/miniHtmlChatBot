@@ -18,11 +18,11 @@ const SysPrompt = [
 ];
 // User prompt prefix for translation
 const TranslatePrompt = [
-  "You are a translator, translate all my subsequent content formally and politely into English:",
-  "You are a translator, translate all my subsequent content accurately and fluently into Chinese:"
+  "Directly provide the translated result in English; the content to be translated is as follows:\n",
+  "Directly provide the translated result in Chinese; the content to be translated is as follows:\n"
 ];
 // System prompt for title creation
-const SummarizePrompt = "Your task is to summarize the given content, then create a short (lenght <9 words) title about it in English. Output the title directly without any additional text or punctuation.";
+const SummarizePrompt = "You're a specialized headline generator. Your task is to summarize the given content, then create a short (lenght <7 words) title about it in Chinese. Output the title directly without any additional text or punctuation.";
 </script>
 <title>AI Chat Bot</title>
 <meta name="viewport" content="width=device-width, initial-scale=0.8">
@@ -249,15 +249,16 @@ class ApiRequest {
 	  max_tokens: 1024,
 	  top_k: 20
 	};
-	if (this.dsp.index()==1)
-	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[0]});
-	else if (this.dsp.index()==2)
-	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[1]});
 	for (let i=0; i<history.length; i++){
 	  temp_options_body.messages.push({role: 'user', content: history[i][0]});
 	  temp_options_body.messages.push({role: 'assistant', content: history[i][1]});
 	}
-	temp_options_body.messages.push({role: 'user', content: userMsgStr});
+	if (this.dsp.index()==1)
+	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[0]+userMsgStr});
+	else if (this.dsp.index()==2)
+	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[1]+userMsgStr});
+	else
+	  temp_options_body.messages.push({role: 'user', content: userMsgStr});
 	this.options.body = JSON.stringify(temp_options_body);
 	fetch(ApiUrl, this.options)
 	.then(response => response.json())
@@ -300,10 +301,12 @@ class ApiRequest {
 	  model: ApiModel[this.ms.selectedIndex],
 	  messages: [{role: 'system', content: SummarizePrompt}],
 	  stream: false,
-	  max_tokens: 9,
+	  max_tokens: 12,
+	  temperature: 0.5,
+	  top_p: 0.6,
 	  top_k: 15
 	};
-	temp_options_body.messages.push({role: 'user', content: 'Output short titles directly, which avoid containing punctuation. The following is the pending title dialog in JSON form:'+JSON.stringify(history[0])});
+	temp_options_body.messages.push({role: 'user', content: `Here is the text that needs to be titled:\n${history[0][0]}\n${history[0][1]}`});
 	this.options.body = JSON.stringify(temp_options_body);
 	fetch(ApiUrl, this.options)
 	.then(response => response.json())
