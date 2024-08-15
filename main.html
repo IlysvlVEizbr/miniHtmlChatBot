@@ -150,8 +150,7 @@ class ChatBox {
 	this.history = [];
   }
   _msgStrToHtml(msgStr){
-	msgStr = msgStr.trim();
-	msgStr = msgStr.replace(/&/g, '&amp;');
+	msgStr = msgStr.trim().replace(/&/g, '&amp;');
 	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	msgStr = msgStr.replace(/```([\s\S]+?)```/g, (m, innerStr) => {
 	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;').replace(/\`/g, '&#96;')}`+'\n```';
@@ -283,10 +282,9 @@ class ApiRequest {
 	disableBtns(false);
   }
   _setTitle(titleStr){
-	titleStr = titleStr.replace(/\"/g, '');
+	titleStr = titleStr.replace(/\"/g, '').trim();
 	titleStr = titleStr.replace(/^标题[：: ]|^title:/i, '');
-	titleStr = titleStr.replace(/[。\.]$/,'');
-	titleStr = titleStr.trim();
+	titleStr = titleStr.replace(/[。\.]$/,'').trim();
 	document.title = titleStr;
 	this.mt.textContent = titleStr;
   }
