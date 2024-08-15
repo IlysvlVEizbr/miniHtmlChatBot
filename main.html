@@ -18,11 +18,11 @@ const SysPrompt = [
 ];
 // 固定用户提示词前缀
 const TranslatePrompt = [
-  "你是翻译官，请正式、礼貌地翻译我后续所有内容到英文：",
-  "你是翻译官，请准确、流利地翻译我后续所有内容到中文："
+  "直接给出翻译到英文的结果，待翻译内容如下:\n",
+  "直接给出翻译到中文的结果，待翻译内容如下:\n"
 ];
 // 起标题时用的系统提示词
-const SummarizePrompt = "Your task is to summarize the given content, then create a short (lenght <9 words) title about it in Chinese. Output the title directly without any additional text or punctuation.";
+const SummarizePrompt = "You're a specialized headline generator. Your task is to summarize the given content, then create a short (lenght <7 words) title about it in Chinese. Output the title directly without any additional text or punctuation.";
 </script>
 <title>AI Chat Bot</title>
 <meta name="viewport" content="width=device-width, initial-scale=0.8">
@@ -251,15 +251,16 @@ class ApiRequest {
 	  max_tokens: 1536,
 	  top_k: 20
 	};
-	if (this.dsp.index()==1)
-	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[0]});
-	else if (this.dsp.index()==2)
-	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[1]});
 	for (let i=0; i<history.length; i++){
 	  temp_options_body.messages.push({role: 'user', content: history[i][0]});
 	  temp_options_body.messages.push({role: 'assistant', content: history[i][1]});
 	}
-	temp_options_body.messages.push({role: 'user', content: userMsgStr});
+	if (this.dsp.index()==1)
+	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[0]+userMsgStr});
+	else if (this.dsp.index()==2)
+	  temp_options_body.messages.push({role: 'user', content: TranslatePrompt[1]+userMsgStr});
+	else
+	  temp_options_body.messages.push({role: 'user', content: userMsgStr});
 	this.options.body = JSON.stringify(temp_options_body);
 	fetch(ApiUrl, this.options)
 	.then(response => response.json())
@@ -302,10 +303,12 @@ class ApiRequest {
 	  model: ApiModel[this.ms.selectedIndex],
 	  messages: [{role: 'system', content: SummarizePrompt}],
 	  stream: false,
-	  max_tokens: 12,
+	  max_tokens: 15,
+	  temperature: 0.5,
+	  top_p: 0.6,
 	  top_k: 15
 	};
-	temp_options_body.messages.push({role: 'user', content: '直接输出短标题，其中避免含有标点符号。以下为JSON格式的待起标题对话：'+JSON.stringify(history[0])});
+	temp_options_body.messages.push({role: 'user', content: `以下为待起标题文段:\n${history[0][0]}\n${history[0][1]}`});
 	this.options.body = JSON.stringify(temp_options_body);
 	fetch(ApiUrl, this.options)
 	.then(response => response.json())
