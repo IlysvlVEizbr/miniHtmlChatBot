@@ -1,5 +1,7 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <script type="text/javascript">
 // API related parameters
 const ApiUrl = 'https://api.siliconflow.cn/v1/chat/completions';
@@ -29,36 +31,41 @@ const SummarizePrompt = "You're a specialized headline generator. Your task is t
 <style type="text/css">
 *{box-sizing:border-box;}
 body{background-color:#eee;}
-summary{margin-left:10px;}
+summary{margin-left:10px;cursor:pointer;}
 code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:1px 2px;border-radius:4px;}
-::-webkit-scrollbar{width:5px;}
+pre{font-family:monospace;margin:0;white-space:pre;overflow-x:auto;font-size:13px;padding-bottom:12px;}
+::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-thumb{background-color:#8888;border-radius:3px;}
 ::-webkit-scrollbar-track{background-color:#0000;border-radius:3px;}
-#mainTitle{font-size:2rem;text-align:center;margin:15px 0 5px;}
+.center{text-align:center;}
+#mainTitle{font-size:2rem;margin:15px 0 5px;}
 .mainBox{background-color:#ffe;border:2px solid;border-radius:8px;padding:10px;}
 #chatBox{height:400px;overflow:auto;}
-.hp-row.msgRow{padding:3px 10px;}
+.msgRow.hp-row{padding:5px 10px;}
 /* User message bubble */
-.user.msg{background-color:#dfd;float:right;border-radius:8px 8px 0 8px;}
+.user.msg{background-color:#dfd;float:right;border-radius:8px 0 8px 8px;}
 .user.name{text-align:right;}
 /* AI reply bubble */
-.bot.msg{background-color:#def;float:left;border-radius:8px 8px 8px 0;}
+.bot.msg{background-color:#def;float:left;border-radius:0 8px 8px 8px;}
 .bot.name{text-align:left;}
-.msg{white-space:pre-wrap;border:1px solid;text-align:start;max-width:90%;padding:10px 15px;margin:2px 0 5px;}
-.name{font-size:0.9rem;margin-top:2px;}
-#experimentRow{padding:0 10px;}
-.hp-row.optionRow{padding:5px 10px 0;}
+.msg{white-space:pre-wrap;border:1px solid;max-width:90%;padding:10px 15px;margin:2px 0 5px;}
+.code-block{background-color:#223;border-radius:6px;padding:10px 15px 5px;margin:8px 0;color:#fff;max-width:100%;}
+.code-header{background-color:#69c;border-radius:6px 6px 0 0;color:#223;display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:5px 10px;font-weight:bold;margin:-10px -15px 15px;}
+.copy-btn{font-size:13px;width:52px;height:28px;background-color:#334;color:#fff;border:none;border-radius:4px;margin-left:15px;cursor:pointer;}
+#opFuncRow{padding:0 10px;}
+.optionRow.table-row{padding:5px 10px 0;}
 .optionCell{padding:5px 0;}
 #optionCell1{width:30%;}
-#optionCell2{width:45%;}
-#optionCell3{width:25%;}
+#optionCell2{width:50%;}
+#optionCell3{width:20%;}
 .optionTitle{padding:8px 0 8px 9px;font-size:15px;}
 .optionSelect{padding:8px;font-size:14px;margin-left:5px;}
 .inputArea{width:100%;border:1px dotted;resize:none;padding:8px;font-size:1.1rem;font-family:Arial,"Microsoft YaHei",sans-serif}
 #inputContent{margin:8px 0 5px;}
-.ctrlBtn{background-color:#fb3;height:50px;width:100%;border-radius:5px;font-size:1.2rem;}
+.ctrlBtn{background-color:#fb3;height:50px;width:100%;border-radius:5px;font-size:1.2rem;cursor:pointer;}
 .btnCell{width:33%;padding:5px 10px;}
-.hp-row{display:table;padding:10px;width:100%;}
+.table-row{display:table;padding:10px;width:100%;}
+.hp-row{display:inline-block;padding:10px;width:100%;}
 .hp-cell{min-width:10%;display:table-cell;}
 /* Narrow screen adaptive layout */
 @media(max-width:850px){
@@ -70,7 +77,7 @@ code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:
 </style>
 </head>
 <body>
-  <div id="mainTitle">AI Chat Bot</div>
+  <div class="center" id="mainTitle">AI Chat Bot</div>
   <div class="hp-row">
 	<div class="mainBox" id="chatBox">
 	  <!-- The following comment content is used for style preview -->
@@ -84,14 +91,14 @@ code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:
 	  </div> -->
 	</div>
   </div>
-  <div class="hp-row" id="experimentRow">
+  <div class="hp-row" id="opFuncRow">
 	<div class="mainBox">
 	  <details>
-		<summary>Experimental optional features</summary>
-		<div class="hp-row optionRow">
+		<summary>Optional features</summary>
+		<div class="table-row optionRow">
 		  <div class="hp-cell optionCell" id="optionCell1">
 			<span class="optionTitle">System prompt</span>
-			<select class="optionSelect" id="sysPromptSelect">
+			<select class="optionSelect" id="sysPromptSelect" aria-label="system prompt selector">
 			  <option>Default</option>
 			  <option>Translate to English</option>
 			  <option>Translate to Chinese</option>
@@ -100,18 +107,18 @@ code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:
 		  </div>
 		  <div class="hp-cell optionCell" id="optionCell2">
 			<span class="optionTitle">Choose AI model</span>
-			<select class="optionSelect" id="modelSelect">
+			<select class="optionSelect" id="modelSelect" aria-label="AI model selector">
 			  <option>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</option>
 			</select>
 		  </div>
 		  <div class="hp-cell optionCell" id="optionCell3">
-			<span class="optionTitle">Automatically generate title</span>
-			<input type="checkbox" id="genTitleCheck"/>
+			<span class="optionTitle">AI generate title</span>
+			<input type="checkbox" id="genTitleCheck" aria-label="need generate title"/>
 		  </div>
 		</div>
-		<div class="hp-row optionRow" id="sysPromptInput">
+		<div class="table-row optionRow" id="sysPromptInputBox">
 		  <div class="optionTitle">Custom system prompt input</div>
-		  <textarea class="inputArea"></textarea>
+		  <textarea class="inputArea" id="sysPromptContent" aria-label="custom system prompt"></textarea>
 		</div>
 	  </details>
 	</div>
@@ -119,10 +126,10 @@ code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:
   <div class="hp-row">
 	<div class="mainBox">
 	  <div>User message input</div>
-	  <textarea class="inputArea" id="inputContent" rows="4"></textarea>
+	  <textarea class="inputArea" id="inputContent" rows="4" aria-label="user prompt"></textarea>
 	</div>
   </div>
-  <div class="hp-row">
+  <div class="table-row">
 	<div class="hp-cell btnCell">
 	  <button type="button" class="ctrlBtn" onclick="clearHis()">Clear history</button>
 	</div>
@@ -133,7 +140,7 @@ code{color:#722;background-color:#dddc;font-size:0.95rem;padding:2px 4px;margin:
 	  <button type="button" class="ctrlBtn" onclick="reGen()">Regenerate</button>
 	</div>
   </div>
-  <center class="hp-row">Open source info: <a href="https://github.com/IlysvlVEizbr/miniHtmlChatBot" target="_blank">GitHub Repo link</a></center>
+  <div class="hp-row center">Open source info: <a href="https://github.com/IlysvlVEizbr/miniHtmlChatBot" target="_blank">GitHub Repo link</a></div>
 <script type="text/javascript">
 class ChatBox {
   constructor(chatBoxId){
@@ -148,10 +155,13 @@ class ChatBox {
 	this.history = [];
   }
   _msgStrToHtml(msgStr){
-	msgStr = msgStr.trim().replace(/&/g, '&amp;');
-	msgStr = msgStr.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	msgStr = msgStr.replace(/```([\s\S]+?)```/g, (m, innerStr) => {
-	  return '```'+`${innerStr.replace(/#/g, '&#35;').replace(/\*/g, '&#42;').replace(/\`/g, '&#96;')}`+'\n```';
+	msgStr = msgStr.trim().replace(/&/g, '&amp;')
+	  .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+	  .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+	msgStr = msgStr.replace(/```(\w+\n)?([\s\S]+?)```/g, (m, lang, code) => {
+	  lang = lang ? lang.trim() : 'Code';
+	  code = code.replace(/#/g, '&num;').replace(/\*/g, '&ast;').replace(/\`/g, '&grave;');
+	  return `<div class="code-block"><div class="code-header"><span>${lang}</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${code}</pre></div>`;
 	});
 	msgStr = msgStr.replace(/(?<!`)`([ -_a-~]{1,25})`(?!`)/g, '<code>$1</code>'); // `Code` to html
 	msgStr = msgStr.replace(/(\*\*\*?)(.+?)\1/g, '<strong>$2</strong>'); // **Bold** to html
@@ -161,8 +171,7 @@ class ChatBox {
   _appendMsg(msgStr, isUserMsg){
 	const divClass = isUserMsg ? 'user' : 'bot';
 	const userName = isUserMsg ? 'User' : 'AI';
-	msgStr = this._msgStrToHtml(msgStr);
-	const newHtml = `<div class="hp-row msgRow"><div class="${divClass} name">${userName}</div><div class="${divClass} msg">${msgStr}</div></div>`;
+	const newHtml = `<div class="hp-row msgRow"><div class="${divClass} name">${userName}</div><div class="${divClass} msg">${this._msgStrToHtml(msgStr)}</div></div>`;
 	this.cb.insertAdjacentHTML('beforeend', newHtml);
   }
   appendConvr(userMsgStr, botMsgStr){
@@ -173,9 +182,7 @@ class ChatBox {
   }
   updateLastBotMsg(botMsgStr){
 	this.history[this.history.length - 1][1] = botMsgStr;
-	// Record the history before converting it to HTML
-	botMsgStr = this._msgStrToHtml(botMsgStr);
-	this.cb.lastElementChild.querySelector('.bot.msg').innerHTML = botMsgStr;
+	this.cb.lastElementChild.querySelector('.bot.msg').innerHTML = this._msgStrToHtml(botMsgStr);
 	this.scrollToBtm();
   }
   popHistory(){
@@ -188,16 +195,16 @@ class ChatBox {
   }
 }
 class DynamicSysPrompt {
-  constructor(sysPromptSelect, sysPromptInputId){
+  constructor(sysPromptSelect, sysPromptInputBoxId, sysPromptContentId){
 	this.sps = sysPromptSelect;
-	this.spi = document.getElementById(sysPromptInputId);
-	this.spc = this.spi.getElementsByTagName('textarea')[0];
-	this.spi.style.display = 'none';
+	this.spib = document.getElementById(sysPromptInputBoxId);
+	this.spc = document.getElementById(sysPromptContentId);
+	this.spib.style.display = 'none';
 	this.sps.onchange = () => {
 	  if (this.sps.selectedIndex==3){
-		this.spi.style.display = 'table';
+		this.spib.style.display = 'table';
 	  } else {
-		this.spi.style.display = 'none';
+		this.spib.style.display = 'none';
 	  }
 	};
   }
@@ -280,9 +287,9 @@ class ApiRequest {
 	disableBtns(false);
   }
   _setTitle(titleStr){
-	titleStr = titleStr.replace(/\"/g, '').trim();
-	titleStr = titleStr.replace(/^title:/i, '');
-	titleStr = titleStr.replace(/\.$/,'').trim();
+	titleStr = titleStr.replace(/\"/g, '').trim()
+	  .replace(/^title:/i, '')
+	  .replace(/\.$/,'').trim();
 	document.title = titleStr;
 	this.mt.textContent = titleStr;
   }
@@ -321,13 +328,12 @@ const modelSelect = document.getElementById('modelSelect');
 const genTitleCheck = document.getElementById('genTitleCheck');
 const btns = document.getElementsByClassName('ctrlBtn');
 const chatBox = new ChatBox('chatBox');
-const dynSysPrompt = new DynamicSysPrompt(sysPromptSelect, 'sysPromptInput');
+const dynSysPrompt = new DynamicSysPrompt(sysPromptSelect, 'sysPromptInputBox', 'sysPromptContent');
 const userInput = new UserInput('inputContent');
 const apiRequest = new ApiRequest(chatBox, dynSysPrompt, mainTitle, modelSelect, genTitleCheck);
 modelSelect.firstElementChild.remove(); // Delete placeholder options
 for (model of ApiModel){
-  // Dynamic import of available model options
-  modelSelect.insertAdjacentHTML('beforeend', `<option>${model}</option>`);
+  modelSelect.insertAdjacentHTML('beforeend', `<option>${model}</option>`); // Dynamic import of available model options
 }
 function disableBtns(flag){
   for (btn of btns){
@@ -356,10 +362,16 @@ function predict(userMsgStr){
 	return;
   }
   disableBtns(true);
-  const history = chatBox.getHistory();
-  // Extract the history before adding "in progress"
+  const history = chatBox.getHistory(); // Extract the history before adding "in progress"
   chatBox.appendConvr(userMsgStr, 'Generating in progress...');
   apiRequest.sendChatRequest(userMsgStr, history);
+}
+function copyCode(button) {
+  const code = button.parentElement.nextElementSibling.innerText;
+  navigator.clipboard.writeText(code).then(() => {
+	button.textContent = "✔️";
+	setTimeout(() => {button.textContent = "Copy";}, 1500);
+  });
 }
 // Begin conversation quickly via URL parameters, which can be used as a customized search engine
 const urlPrompt = (new URLSearchParams(location.search)).get('s');
